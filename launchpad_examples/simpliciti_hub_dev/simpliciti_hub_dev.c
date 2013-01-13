@@ -19,7 +19,8 @@
 // CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
 // DAMAGES, FOR ANY REASON WHATSOEVER.
 // 
-// This is part of revision 9107 of the DK-LM3S9B96-EM2-CC2500-SIMPLICITI Firmware Package.
+// This file has been adapted from DK-LM3S9D96-EM2-CC2500-SIMPLICITI Firmware Package
+// to Stellaris Launchpad
 //
 //*****************************************************************************
 
@@ -35,15 +36,7 @@
 #include "driverlib/systick.h"
 #include "driverlib/interrupt.h"
 #include "driverlib/flash.h"
-#include "drivers/set_pinout.h"
 #include "utils/ustdlib.h"
-#include "grlib/grlib.h"
-#include "grlib/widget.h"
-#include "grlib/canvas.h"
-#include "grlib/container.h"
-#include "grlib/pushbutton.h"
-#include "drivers/touch.h"
-#include "drivers/kitronix320x240x16_ssd2119_8bit.h"
 
 //
 // SimpliciTI Headers
@@ -122,6 +115,7 @@
 // Forward reference to various widget structures.
 //
 //*****************************************************************************
+/*
 extern tCanvasWidget g_sBackground;
 extern tPushButtonWidget g_sButton1;
 extern tPushButtonWidget g_sButton2;
@@ -129,31 +123,34 @@ extern tPushButtonWidget g_sLED1;
 extern tPushButtonWidget g_sLED2;
 extern tCanvasWidget g_sMainStatus;
 extern tCanvasWidget g_sLinkStatus;
-
+*/
 //*****************************************************************************
 //
 // Forward reference to the button press handlers.
 //
 //*****************************************************************************
+/*
 void OnButton1Press(tWidget *pWidget);
 void OnButton2Press(tWidget *pWidget);
-
+*/
 //*****************************************************************************
 //
 // The heading containing the application title.
 //
 //*****************************************************************************
+/*
 Canvas(g_sHeading, WIDGET_ROOT, &g_sMainStatus, &g_sBackground,
        &g_sKitronix320x240x16_SSD2119, 0, 0, 320, 23,
        (CANVAS_STYLE_FILL | CANVAS_STYLE_OUTLINE | CANVAS_STYLE_TEXT),
        ClrDarkBlue, ClrWhite, ClrWhite, g_pFontCm20, "SimpliciTI-hub-dev",
        0, 0);
-
+*/
 //*****************************************************************************
 //
 // Canvas used to display the latest status.
 //
 //*****************************************************************************
+/*
 #define MAX_STATUS_STRING_LEN 40
 char g_pcStatus[2][MAX_STATUS_STRING_LEN];
 Canvas(g_sMainStatus, WIDGET_ROOT, &g_sLinkStatus, 0,
@@ -161,31 +158,34 @@ Canvas(g_sMainStatus, WIDGET_ROOT, &g_sLinkStatus, 0,
        (CANVAS_STYLE_FILL | CANVAS_STYLE_OUTLINE | CANVAS_STYLE_TEXT),
        ClrDarkBlue, ClrWhite, ClrWhite, g_pFontCm20, g_pcStatus[0],
        0, 0);
-
+*/
 //*****************************************************************************
 //
 // A canvas showing the link status.
 //
 //*****************************************************************************
+/*
 Canvas(g_sLinkStatus, WIDGET_ROOT, 0, 0,
        &g_sKitronix320x240x16_SSD2119, 0, 194, 320, 23, (CANVAS_STYLE_FILL |
        CANVAS_STYLE_TEXT), ClrBlack, ClrWhite, ClrWhite, g_pFontCm20,
        g_pcStatus[1], 0, 0);
-
+*/
 //*****************************************************************************
 //
 // The canvas widget acting as the background to the display.
 //
 //*****************************************************************************
+/*
 Canvas(g_sBackground, &g_sHeading, 0, &g_sButton1,
        &g_sKitronix320x240x16_SSD2119, 0, 23, 320, (240 - 69),
        CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0);
-
+*/
 //*****************************************************************************
 //
 // The button used to toggle AP LED 1.
 //
 //*****************************************************************************
+/*
 RectangularButton(g_sButton1, &g_sBackground, &g_sButton2, 0,
                   &g_sKitronix320x240x16_SSD2119, 174, 56, 140, 60,
                   (PB_STYLE_OUTLINE | PB_STYLE_TEXT_OPAQUE | PB_STYLE_TEXT |
@@ -193,12 +193,13 @@ RectangularButton(g_sButton1, &g_sBackground, &g_sButton2, 0,
                    ClrBlue, ClrLightBlue, ClrWhite, ClrWhite,
                    g_pFontCmss22b, "Button 1", 0, 0, 0, 0,
                    OnButton1Press);
-
+*/
 //*****************************************************************************
 //
 // The button used to toggle AP LED 1.
 //
 //*****************************************************************************
+/*
 RectangularButton(g_sButton2, &g_sBackground, &g_sLED1, 0,
                   &g_sKitronix320x240x16_SSD2119, 174, 124, 140, 60,
                   (PB_STYLE_OUTLINE | PB_STYLE_TEXT_OPAQUE | PB_STYLE_TEXT |
@@ -206,7 +207,7 @@ RectangularButton(g_sButton2, &g_sBackground, &g_sLED1, 0,
                    ClrBlue, ClrLightBlue, ClrWhite, ClrWhite,
                    g_pFontCmss22b, "Button 2", 0, 0, 0, 0,
                    OnButton2Press);
-
+*/
 //*****************************************************************************
 //
 // The "LED"s used to indicate application status.  These are deliberately not
@@ -214,6 +215,7 @@ RectangularButton(g_sButton2, &g_sBackground, &g_sLED1, 0,
 // mode to run in.
 //
 //*****************************************************************************
+/*
 CircularButton(g_sLED1, &g_sBackground, &g_sLED2, 0,
                &g_sKitronix320x240x16_SSD2119, 40, 120, 34,
                (PB_STYLE_OUTLINE | PB_STYLE_FILL | PB_STYLE_TEXT_OPAQUE |
@@ -225,7 +227,7 @@ CircularButton(g_sLED2, &g_sBackground, 0, 0,
                (PB_STYLE_OUTLINE | PB_STYLE_FILL | PB_STYLE_TEXT_OPAQUE |
                PB_STYLE_TEXT), ClrRed, ClrRed, ClrWhite, ClrWhite,
                g_pFontCmss22b, "LED2", 0, 0, 0, 0, 0);
-
+*/
 //*****************************************************************************
 //
 // A global system tick counter.
@@ -321,7 +323,7 @@ ApplicationDelay(unsigned long ulDelaymS)
         // Process the message queue in case there are any new messages to
         // handle.
         //
-        WidgetMessageQueueProcess();
+//        WidgetMessageQueueProcess();
     }
 }
 
@@ -330,6 +332,7 @@ ApplicationDelay(unsigned long ulDelaymS)
 // Draw one of the LED widgets in a particular state.
 //
 //*****************************************************************************
+/*
 void
 UpdateLEDWidget(unsigned long ulLED, tBoolean bOn)
 {
@@ -406,7 +409,7 @@ SetLED(unsigned long ulLED, tBoolean bState)
     //
     UpdateLEDWidget(ulLED, bState);
 }
-
+*/
 //*****************************************************************************
 //
 // Map a SimpliciTI API return value into a human-readable string.
@@ -439,6 +442,7 @@ MapSMPLStatus(smplStatus_t eVal)
 // Update one or other of the the status strings on the display.
 //
 //*****************************************************************************
+/*
 void
 UpdateStatus(tBoolean bMainStatus, const char *pcString, ...)
 {
@@ -568,7 +572,7 @@ SetSimpliciTIAddress(void)
     //
     return(true);
 }
-
+*/
 //*****************************************************************************
 //
 // Link to the access point and continue processing local button requests
@@ -585,28 +589,28 @@ LinkTo(void)
     smplStatus_t eRetcode;
     unsigned long ulButton;
 
-    UpdateStatus(false, "Linking to Access Point");
+//    UpdateStatus(false, "Linking to Access Point");
 
     //
     // Keep trying to link.  Flash our "LEDs" while these attempts continue.
     //
     while (SMPL_SUCCESS != SMPL_Link(&g_sLinkID))
     {
-        ToggleLED(1);
-        ToggleLED(2);
+//        ToggleLED(1);
+//        ToggleLED(2);
         SPIN_ABOUT_A_SECOND;
     }
 
     //
     // Turn off both LEDs now that we are linked.
     //
-    SetLED(1, false);
-    SetLED(2, false);
+//    SetLED(1, false);
+//    SetLED(2, false);
 
     //
     // Tell the user all is well.
     //
-    UpdateStatus(false, "Link successful");
+//    UpdateStatus(false, "Link successful");
 
     //
     // Put the radio to sleep until a button is pressed.
@@ -674,7 +678,7 @@ LinkTo(void)
                         //
                         // Yes - Message acked.  We're done.  Toggle LED 1 to
                         // indicate ack received. */
-                        ToggleLED(1);
+//                        ToggleLED(1);
                         break;
                     }
 
@@ -699,12 +703,12 @@ LinkTo(void)
                     //
                     // Tell the user what happened.
                     //
-                    UpdateStatus(false, "Channel changed?");
+//                    UpdateStatus(false, "Channel changed?");
 
                     //
                     // Message not acked.  Toggle LED 2.
                     //
-                    ToggleLED(2);
+//                    ToggleLED(2);
 
 #ifdef FREQUENCY_AGILITY
                     //
@@ -730,7 +734,7 @@ LinkTo(void)
                     //
                     ucDone = 1;
 
-                    UpdateStatus(false, "Toggled AP LED %d", ulButton);
+//                    UpdateStatus(false, "Toggled AP LED %d", ulButton);
                 }
             }
 
@@ -743,7 +747,7 @@ LinkTo(void)
         //
         // Process the widget message queue.
         //
-        WidgetMessageQueueProcess();
+//        WidgetMessageQueueProcess();
     }
 }
 
@@ -770,16 +774,17 @@ main(void)
     // call PinoutSet() this would configure all the EPI pins for SDRAM and
     // we don't want to do this.
     //
-    g_eDaughterType = DAUGHTER_NONE;
+//    g_eDaughterType = DAUGHTER_NONE;
 
     //
     // Enable peripherals required to drive the LCD.
     //
+/*
     ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
     ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
     ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
     ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOH);
-
+*/
     //
     // Configure SysTick for a 10Hz interrupt.
     //
@@ -790,47 +795,55 @@ main(void)
     //
     // Initialize the display driver.
     //
-    Kitronix320x240x16_SSD2119Init();
+//    Kitronix320x240x16_SSD2119Init();
 
     //
     // Initialize the touch screen driver.
     //
-    TouchScreenInit();
+//    TouchScreenInit();
 
     //
     // Set the touch screen event handler.
     //
-    TouchScreenCallbackSet(WidgetPointerMessage);
+//    TouchScreenCallbackSet(WidgetPointerMessage);
 
     //
     // Add the compile-time defined widgets to the widget tree.
     //
-    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sHeading);
+//    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sHeading);
 
     //
     // Initialize the status string.
     //
-    UpdateStatus(true, "Joining network...");
+//    UpdateStatus(true, "Joining network...");
 
     //
     // Paint the widget tree to make sure they all appear on the display.
     //
-    WidgetPaint(WIDGET_ROOT);
+//    WidgetPaint(WIDGET_ROOT);
 
     //
     // Initialize the SimpliciTI BSP.
     //
     BSP_Init();
 
+    BSP_TURN_ON_LED1();
+    SPIN_ABOUT_A_SECOND;
+    BSP_TURN_ON_LED2();
+    SPIN_ABOUT_A_SECOND;
+
+    BSP_TURN_ON_LED3();
+    SPIN_ABOUT_A_SECOND;
     //
     // Set the SimpliciTI device address using the current Ethernet MAC address
     // to ensure something like uniqueness.
     //
-    bRetcode = SetSimpliciTIAddress();
+//    bRetcode = SetSimpliciTIAddress();
 
     //
     // Did we have a problem with the address?
     //
+/*
     if(!bRetcode)
     {
         //
@@ -844,30 +857,31 @@ main(void)
             //
         }
     }
-
+*/
     //
     // Turn both "LEDs" off.
     //
-    SetLED(1, false);
-    SetLED(2, false);
+//    SetLED(1, false);
+//    SetLED(2, false);
 
     //
     // Keep trying to join (a side effect of successful initialization) until
     // successful.  Toggle LEDS to indicate that joining has not occurred.
     //
+
     while(SMPL_SUCCESS != SMPL_Init(0))
     {
-      ToggleLED(1);
-      ToggleLED(2);
+     BSP_TOGGLE_LED1();
       SPIN_ABOUT_A_SECOND;
     }
 
     //
     // We have joined the network so turn on both "LEDs" to indicate this.
     //
-    SetLED(1, true);
-    SetLED(2, true);
-    UpdateStatus(true, "Joined network");
+      BSP_TURN_ON_LED3();
+//    SetLED(1, true);
+//    SetLED(2, true);
+//    UpdateStatus(true, "Joined network");
 
     //
     // Link to the access point which is now listening for us and continue

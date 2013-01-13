@@ -2,7 +2,7 @@
 //
 // startup_gcc.c - Startup code for use with GNU tools.
 //
-// Copyright (c) 2010-2012 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2012 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 // Texas Instruments (TI) is supplying this software for use solely and
@@ -18,9 +18,12 @@
 // CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
 // DAMAGES, FOR ANY REASON WHATSOEVER.
 // 
-// This is part of revision 9107 of the DK-LM3S9B96-EM2-CC2500-SIMPLICITI Firmware Package.
+// This is part of revision 9453 of the EK-LM4F120XL Firmware Package.
 //
 //*****************************************************************************
+
+#include "inc/hw_nvic.h"
+#include "inc/hw_types.h"
 
 //*****************************************************************************
 //
@@ -32,12 +35,6 @@ static void NmiSR(void);
 static void FaultISR(void);
 static void IntDefaultHandler(void);
 
-//*****************************************************************************
-//
-// External declarations for the interrupt handlers used by the application.
-//
-//*****************************************************************************
-extern void TouchScreenIntHandler(void);
 extern void BSP_GpioPort1Isr(void);
 extern void BSP_GpioPort1Isr(void);
 extern void BSP_GpioPort1Isr(void);
@@ -55,7 +52,7 @@ extern int main(void);
 // Reserve space for the system stack.
 //
 //*****************************************************************************
-static unsigned long pulStack[256];
+static unsigned long pulStack[64];
 
 //*****************************************************************************
 //
@@ -82,10 +79,10 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // Debug monitor handler
     0,                                      // Reserved
     IntDefaultHandler,                      // The PendSV handler
-    SysTickHandler,                         // The SysTick handler
-    IntDefaultHandler,                      // GPIO Port A
-    IntDefaultHandler,                      // GPIO Port B
-    BSP_GpioPort1Isr,                       // GPIO Port C
+    SysTickHandler,                      // The SysTick handler
+    BSP_GpioPort1Isr,                      // GPIO Port A
+    BSP_GpioPort1Isr,                      // GPIO Port B
+    IntDefaultHandler,                      // GPIO Port C
     IntDefaultHandler,                      // GPIO Port D
     IntDefaultHandler,                      // GPIO Port E
     IntDefaultHandler,                      // UART0 Rx and Tx
@@ -100,7 +97,7 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // ADC Sequence 0
     IntDefaultHandler,                      // ADC Sequence 1
     IntDefaultHandler,                      // ADC Sequence 2
-    TouchScreenIntHandler,                  // ADC Sequence 3
+    IntDefaultHandler,                      // ADC Sequence 3
     IntDefaultHandler,                      // Watchdog timer
     IntDefaultHandler,                      // Timer 0 subtimer A
     IntDefaultHandler,                      // Timer 0 subtimer B
@@ -113,9 +110,9 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // Analog Comparator 2
     IntDefaultHandler,                      // System Control (PLL, OSC, BO)
     IntDefaultHandler,                      // FLASH Control
-    IntDefaultHandler,                      // GPIO Port F
-    BSP_GpioPort1Isr,                       // GPIO Port G
-    BSP_GpioPort1Isr,                       // GPIO Port H
+    BSP_GpioPort1Isr,                      // GPIO Port F
+    IntDefaultHandler,                      // GPIO Port G
+    IntDefaultHandler,                      // GPIO Port H
     IntDefaultHandler,                      // UART2 Rx and Tx
     IntDefaultHandler,                      // SSI1 Rx and Tx
     IntDefaultHandler,                      // Timer 3 subtimer A
@@ -137,7 +134,91 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // ADC1 Sequence 3
     IntDefaultHandler,                      // I2S0
     IntDefaultHandler,                      // External Bus Interface 0
-    IntDefaultHandler                       // GPIO Port J
+    IntDefaultHandler,                      // GPIO Port J
+    IntDefaultHandler,                      // GPIO Port K
+    IntDefaultHandler,                      // GPIO Port L
+    IntDefaultHandler,                      // SSI2 Rx and Tx
+    IntDefaultHandler,                      // SSI3 Rx and Tx
+    IntDefaultHandler,                      // UART3 Rx and Tx
+    IntDefaultHandler,                      // UART4 Rx and Tx
+    IntDefaultHandler,                      // UART5 Rx and Tx
+    IntDefaultHandler,                      // UART6 Rx and Tx
+    IntDefaultHandler,                      // UART7 Rx and Tx
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    IntDefaultHandler,                      // I2C2 Master and Slave
+    IntDefaultHandler,                      // I2C3 Master and Slave
+    IntDefaultHandler,                      // Timer 4 subtimer A
+    IntDefaultHandler,                      // Timer 4 subtimer B
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    0,                                      // Reserved
+    IntDefaultHandler,                      // Timer 5 subtimer A
+    IntDefaultHandler,                      // Timer 5 subtimer B
+    IntDefaultHandler,                      // Wide Timer 0 subtimer A
+    IntDefaultHandler,                      // Wide Timer 0 subtimer B
+    IntDefaultHandler,                      // Wide Timer 1 subtimer A
+    IntDefaultHandler,                      // Wide Timer 1 subtimer B
+    IntDefaultHandler,                      // Wide Timer 2 subtimer A
+    IntDefaultHandler,                      // Wide Timer 2 subtimer B
+    IntDefaultHandler,                      // Wide Timer 3 subtimer A
+    IntDefaultHandler,                      // Wide Timer 3 subtimer B
+    IntDefaultHandler,                      // Wide Timer 4 subtimer A
+    IntDefaultHandler,                      // Wide Timer 4 subtimer B
+    IntDefaultHandler,                      // Wide Timer 5 subtimer A
+    IntDefaultHandler,                      // Wide Timer 5 subtimer B
+    IntDefaultHandler,                      // FPU
+    IntDefaultHandler,                      // PECI 0
+    IntDefaultHandler,                      // LPC 0
+    IntDefaultHandler,                      // I2C4 Master and Slave
+    IntDefaultHandler,                      // I2C5 Master and Slave
+    IntDefaultHandler,                      // GPIO Port M
+    IntDefaultHandler,                      // GPIO Port N
+    IntDefaultHandler,                      // Quadrature Encoder 2
+    IntDefaultHandler,                      // Fan 0
+    0,                                      // Reserved
+    IntDefaultHandler,                      // GPIO Port P (Summary or P0)
+    IntDefaultHandler,                      // GPIO Port P1
+    IntDefaultHandler,                      // GPIO Port P2
+    IntDefaultHandler,                      // GPIO Port P3
+    IntDefaultHandler,                      // GPIO Port P4
+    IntDefaultHandler,                      // GPIO Port P5
+    IntDefaultHandler,                      // GPIO Port P6
+    IntDefaultHandler,                      // GPIO Port P7
+    IntDefaultHandler,                      // GPIO Port Q (Summary or Q0)
+    IntDefaultHandler,                      // GPIO Port Q1
+    IntDefaultHandler,                      // GPIO Port Q2
+    IntDefaultHandler,                      // GPIO Port Q3
+    IntDefaultHandler,                      // GPIO Port Q4
+    IntDefaultHandler,                      // GPIO Port Q5
+    IntDefaultHandler,                      // GPIO Port Q6
+    IntDefaultHandler,                      // GPIO Port Q7
+    IntDefaultHandler,                      // GPIO Port R
+    IntDefaultHandler,                      // GPIO Port S
+    IntDefaultHandler,                      // PWM 1 Generator 0
+    IntDefaultHandler,                      // PWM 1 Generator 1
+    IntDefaultHandler,                      // PWM 1 Generator 2
+    IntDefaultHandler,                      // PWM 1 Generator 3
+    IntDefaultHandler                       // PWM 1 Fault
 };
 
 //*****************************************************************************
@@ -189,6 +270,20 @@ ResetISR(void)
           "        it      lt\n"
           "        strlt   r2, [r0], #4\n"
           "        blt     zero_loop");
+
+    //
+    // Enable the floating-point unit.  This must be done here to handle the
+    // case where main() uses floating-point and the function prologue saves
+    // floating-point registers (which will fault if floating-point is not
+    // enabled).  Any configuration of the floating-point unit using DriverLib
+    // APIs must be done here prior to the floating-point unit being enabled.
+    //
+    // Note that this does not use DriverLib since it might not be included in
+    // this project.
+    //
+    HWREG(NVIC_CPAC) = ((HWREG(NVIC_CPAC) &
+                         ~(NVIC_CPAC_CP10_M | NVIC_CPAC_CP11_M)) |
+                        NVIC_CPAC_CP10_FULL | NVIC_CPAC_CP11_FULL);
 
     //
     // Call the application's entry point.

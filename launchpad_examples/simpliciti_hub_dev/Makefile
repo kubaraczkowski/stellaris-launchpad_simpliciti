@@ -18,24 +18,24 @@
 # CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
 # DAMAGES, FOR ANY REASON WHATSOEVER.
 # 
-# This is part of revision 9107 of the DK-LM3S9B96-EM2-CC2500-SIMPLICITI Firmware Package.
+# This is part of revision 9107 of the DK-LM3S9D96-EM2-CC2500-SIMPLICITI Firmware Package.
 #
 #******************************************************************************
 
 #
 # Defines the part type that this project uses.
 #
-PART=LM3S9B96
-
+PART=LM4F120H5QR
+CC=arm-none-eabi-gcc
 #
 # Set the processor variant.
 #
-VARIANT=cm3
+VARIANT=cm4f
 
 #
 # The base directory for StellarisWare.
 #
-ROOT=../../..
+ROOT=~/arm/stellarisware
 
 #
 # Include the common make definitions.
@@ -45,23 +45,23 @@ include ${ROOT}/makedefs
 #
 # Where to find source files that do not live in this directory.
 #
-VPATH=../../../SimpliciTI-1.1.1
-VPATH+=../../dk-lm3s9b96/drivers
-VPATH+=../../../utils
+VPATH=../../SimpliciTI-1.1.1
+VPATH+=${ROOT}/boards/ek-lm4f120xl/drivers
+VPATH+=${ROOT}/utils
 
 #
 # Where to find header files that do not live in the source directory.
 #
 IPATH=.
-IPATH+=../../..
-IPATH+=../../../SimpliciTI-1.1.1
-IPATH+=../../../SimpliciTI-1.1.1/Components/bsp
-IPATH+=../../../SimpliciTI-1.1.1/Components/bsp/boards/dk-lm3s9b96
-IPATH+=../../dk-lm3s9b96
-IPATH+=../../../SimpliciTI-1.1.1/Components/bsp/drivers
-IPATH+=../../../SimpliciTI-1.1.1/Components/mrfi
-IPATH+=../../../SimpliciTI-1.1.1/Components/simpliciti/nwk
-IPATH+=../../../SimpliciTI-1.1.1/Components/simpliciti/nwk_applications
+IPATH+=${ROOT}
+IPATH+=../../SimpliciTI-1.1.1
+IPATH+=../../SimpliciTI-1.1.1/Components/bsp
+IPATH+=../../SimpliciTI-1.1.1/Components/bsp/boards/stellaris_launchpad
+#IPATH+=../../dk-lm3s9d96
+IPATH+=../../SimpliciTI-1.1.1/Components/bsp/drivers
+IPATH+=../../SimpliciTI-1.1.1/Components/mrfi
+IPATH+=../../SimpliciTI-1.1.1/Components/simpliciti/nwk
+IPATH+=../../SimpliciTI-1.1.1/Components/simpliciti/nwk_applications
 
 #
 # The default rule, which causes the SimpliciTI End Device for AP As Data Hub example to be built.
@@ -84,20 +84,16 @@ ${COMPILER}:
 #
 # Rules for building the SimpliciTI End Device for AP As Data Hub example.
 #
-${COMPILER}/simpliciti_hub_dev.axf: ${COMPILER}/kitronix320x240x16_ssd2119_8bit.o
-${COMPILER}/simpliciti_hub_dev.axf: ${COMPILER}/set_pinout.o
 ${COMPILER}/simpliciti_hub_dev.axf: ${COMPILER}/simpliciti_hub_dev.o
 ${COMPILER}/simpliciti_hub_dev.axf: ${COMPILER}/simplicitilib.o
 ${COMPILER}/simpliciti_hub_dev.axf: ${COMPILER}/startup_${COMPILER}.o
-${COMPILER}/simpliciti_hub_dev.axf: ${COMPILER}/touch.o
 ${COMPILER}/simpliciti_hub_dev.axf: ${COMPILER}/uartstdio.o
 ${COMPILER}/simpliciti_hub_dev.axf: ${COMPILER}/ustdlib.o
-${COMPILER}/simpliciti_hub_dev.axf: ${ROOT}/grlib/${COMPILER}-cm3/libgr-cm3.a
-${COMPILER}/simpliciti_hub_dev.axf: ${ROOT}/driverlib/${COMPILER}-cm3/libdriver-cm3.a
+${COMPILER}/simpliciti_hub_dev.axf: ${ROOT}/driverlib/${COMPILER}-cm4f/libdriver-cm4f.a
 ${COMPILER}/simpliciti_hub_dev.axf: simpliciti_hub_dev.ld
 SCATTERgcc_simpliciti_hub_dev=simpliciti_hub_dev.ld
 ENTRY_simpliciti_hub_dev=ResetISR
-CFLAGSgcc=-DTARGET_IS_TEMPEST_RB1 -DSIMPLICITI_CONFIG_HEADER
+CFLAGSgcc=-DTARGET_IS_FIRESTORM_RA2 -DSIMPLICITI_CONFIG_HEADER
 
 #
 # Include the automatically generated dependency files.
