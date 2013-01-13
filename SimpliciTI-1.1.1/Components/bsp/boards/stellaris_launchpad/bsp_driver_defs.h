@@ -29,8 +29,7 @@
 
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
  *   BSP (Board Support Package)
- *   Target : Texas Instruments DK-LM3S9B96
- *            Stellaris Development Kit with EM Adapter
+ *   Target : Texas Instruments Stellaris Launchpad
  *   Driver definition file.
  * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
  */

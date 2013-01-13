@@ -31,8 +31,7 @@
 /* ~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
  *   MRFI (Minimal RF Interface)
  *   Board code file.
- *   Target : Texas Instruments DK-LM3S9B96
- *            Stellaris Development Kit with EM Adapter
+ *   Target : Texas Instruments Stellaris Launchpad
  *   Radios : CC2500
  * ~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
  */
@@ -74,7 +73,7 @@ unsigned char g_ucSPIReadVal;
  * @return      -
  **************************************************************************************************
  */
-BSP_ISR_FUNCTION( BSP_GpioPort1Isr, INT_GPIOH )
+BSP_ISR_FUNCTION( BSP_GpioPort1Isr, INT_GPIOA )
 {
   /*
    *  This ISR is easily replaced.  The new ISR must simply

@@ -29,8 +29,7 @@
 
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
  *   BSP (Board Support Package)
- *   Target : Texas Instruments DK-LM3S9B96
- *            Stellaris Development Kit with EM Adapter
+ *   Target : Texas Instruments Stellaris Launchpad
  *   Top-level driver file.
  * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
  */
@@ -60,9 +59,20 @@ void BSP_InitDrivers(void)
      * Enable GPIO peripherals used by SPI, LEDs, buttons and radio interface
      * here.
      */
-    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
+#ifdef MRFI_CC2520
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOG);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOH);
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOJ);
+#else
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+//    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOJ);
+    MAP_SysCtlPeripheralEnable(MOD2_CONNECTION ? SYSCTL_PERIPH_GPIOG:
+                               SYSCTL_PERIPH_GPIOB);
+#endif
 #if (!defined BSP_NO_LEDS)
   BSP_InitLeds();
 #endif

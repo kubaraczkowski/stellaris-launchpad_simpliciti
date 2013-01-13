@@ -30,8 +30,7 @@
 /* ~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
  *   MRFI (Minimal RF Interface)
  *   Board definition file.
- *   Target : Texas Instruments EK-EvalBot
- *            Stellaris Development Kit
+ *   Target : Texas Instruments Stellaris Launchpad
  *   Radios : CC21101, CC2500
  * ~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
  */
@@ -71,15 +70,15 @@ extern unsigned char g_ucSPIReadVal;
  */
 
 /* ------------------------------------------------------------------------------------------------
- *                     GDO0 Pin Configuration (on PH2)
+ *                     GDO0 Pin Configuration (on PA5)
  * ------------------------------------------------------------------------------------------------
  */
-#define __mrfi_GDO0_BIT__                     2
-#define MRFI_GDO0_BASE                        GPIO_PORTH_BASE
+#define __mrfi_GDO0_BIT__                     5
+#define MRFI_GDO0_BASE                        GPIO_PORTA_BASE
 #define MRFI_CONFIG_GDO0_PIN_AS_INPUT()       st( MAP_GPIOPinTypeGPIOInput(MRFI_GDO0_BASE, BV(__mrfi_GDO0_BIT__)); )
 #define MRFI_GDO0_PIN_IS_HIGH()               (MAP_GPIOPinRead(MRFI_GDO0_BASE, BV(__mrfi_GDO0_BIT__)))
 
-#define MRFI_GDO0_INT_VECTOR                  INT_GPIOH
+#define MRFI_GDO0_INT_VECTOR                  INT_GPIOA
 #define MRFI_ENABLE_GDO0_INT()                st( MAP_GPIOPinIntEnable(MRFI_GDO0_BASE, BV(__mrfi_GDO0_BIT__)); )
 #define MRFI_DISABLE_GDO0_INT()               st( MAP_GPIOPinIntDisable(MRFI_GDO0_BASE, BV(__mrfi_GDO0_BIT__)); )
 #define MRFI_GDO0_INT_IS_ENABLED()              ( HWREG(MRFI_GDO0_BASE + GPIO_O_IM) & BV(__mrfi_GDO0_BIT__) )
@@ -89,15 +88,15 @@ extern unsigned char g_ucSPIReadVal;
 #define MRFI_CONFIG_GDO0_FALLING_EDGE_INT()   st( MAP_GPIOIntTypeSet(MRFI_GDO0_BASE, BV(__mrfi_GDO0_BIT__), GPIO_FALLING_EDGE); )
 
 /* ------------------------------------------------------------------------------------------------
- *                     GDO2 Pin Configuration (on PH3)
+ *                     GDO2 Pin Configuration (on PA7)
  * ------------------------------------------------------------------------------------------------
  */
-#define __mrfi_GDO2_BIT__                     3
-#define MRFI_GDO2_BASE                        GPIO_PORTH_BASE
+#define __mrfi_GDO2_BIT__                     7
+#define MRFI_GDO2_BASE                        GPIO_PORTA_BASE
 #define MRFI_CONFIG_GDO2_PIN_AS_INPUT()       st( MAP_GPIOPinTypeGPIOInput(MRFI_GDO2_BASE, BV(__mrfi_GDO2_BIT__)); )
 #define MRFI_GDO2_PIN_IS_HIGH()               (MAP_GPIOPinRead(MRFI_GDO2_BASE, BV(__mrfi_GDO2_BIT__)))
 
-#define MRFI_GDO2_INT_VECTOR                  INT_GPIOH
+#define MRFI_GDO2_INT_VECTOR                  INT_GPIOA
 #define MRFI_ENABLE_GDO2_INT()                st( MAP_GPIOPinIntEnable(MRFI_GDO2_BASE, BV(__mrfi_GDO2_BIT__)); )
 #define MRFI_DISABLE_GDO2_INT()               st( MAP_GPIOPinIntDisable(MRFI_GDO2_BASE, BV(__mrfi_GDO2_BIT__)); )
 #define MRFI_GDO2_INT_IS_ENABLED()             ( HWREG(MRFI_GDO2_BASE + GPIO_O_IM) & BV(__mrfi_GDO2_BIT__) )
@@ -111,45 +110,45 @@ extern unsigned char g_ucSPIReadVal;
  * ------------------------------------------------------------------------------------------------
  */
 
-/* Chip select pin definition */
-#define MOD_SPI_CSN_BASE                      GPIO_PORTH_BASE
-#define MOD_SPI_CSN_BIT                       5
+/* Chip select pin definition PA6 */
+#define MOD_SPI_CSN_BASE                      GPIO_PORTA_BASE
+#define MOD_SPI_CSN_BIT                       6
 
 #define MRFI_SPI_CONFIG_CSN_PIN_AS_OUTPUT()   st( MAP_GPIOPinTypeGPIOOutput(MOD_SPI_CSN_BASE, BV(MOD_SPI_CSN_BIT)); )
 #define MRFI_SPI_DRIVE_CSN_HIGH()             st( MAP_GPIOPinWrite(MOD_SPI_CSN_BASE, BV(MOD_SPI_CSN_BIT), BV(MOD_SPI_CSN_BIT)); )
 #define MRFI_SPI_DRIVE_CSN_LOW()              st(MAP_GPIOPinWrite(MOD_SPI_CSN_BASE, BV(MOD_SPI_CSN_BIT), 0); )
 #define MRFI_SPI_CSN_IS_HIGH()                (MAP_GPIOPinRead(MOD_SPI_CSN_BASE, BV(MOD_SPI_CSN_BIT)))
 
-/* SCLK Pin Configuration (PH4) */
+/* SCLK Pin Configuration (PB4) */
 #define __mrfi_SPI_SCLK_GPIO_BIT__            4
-#define MRFI_SPI_CONFIG_SCLK_PIN_AS_OUTPUT()  st( MAP_GPIOPinTypeSSI(GPIO_PORTH_BASE, BV(__mrfi_SPI_SCLK_GPIO_BIT__)); )
+#define MRFI_SPI_CONFIG_SCLK_PIN_AS_OUTPUT()  st( MAP_GPIOPinTypeSSI(GPIO_PORTB_BASE, BV(__mrfi_SPI_SCLK_GPIO_BIT__)); )
 #define MRFI_SPI_DRIVE_SCLK_HIGH()            /* Not used. */
 #define MRFI_SPI_DRIVE_SCLK_LOW()             /* Not used. */
 
-/* SI Pin Configuration (PH7) */
+/* SI Pin Configuration (PB7) */
 #define __mrfi_SPI_SI_GPIO_BIT__              7
-#define MRFI_SPI_CONFIG_SI_PIN_AS_OUTPUT()    st( MAP_GPIOPinTypeSSI(GPIO_PORTH_BASE, BV(__mrfi_SPI_SI_GPIO_BIT__)); )
+#define MRFI_SPI_CONFIG_SI_PIN_AS_OUTPUT()    st( MAP_GPIOPinTypeSSI(GPIO_PORTB_BASE, BV(__mrfi_SPI_SI_GPIO_BIT__)); )
 #define MRFI_SPI_DRIVE_SI_HIGH()              /* Not used. */
 #define MRFI_SPI_DRIVE_SI_LOW()               /* Not used. */
 
-/* SO Pin Configuration (PH6) */
+/* SO Pin Configuration (PB6) */
 #define __mrfi_SPI_SO_GPIO_BIT__              6
-#define MRFI_SPI_CONFIG_SO_PIN_AS_INPUT()     st( MAP_GPIOPinTypeSSI(GPIO_PORTH_BASE, BV(__mrfi_SPI_SO_GPIO_BIT__)); )
-#define MRFI_SPI_SO_IS_HIGH()                 (MAP_GPIOPinRead(GPIO_PORTF_BASE, BV(__mrfi_SPI_SO_GPIO_BIT__)))
+#define MRFI_SPI_CONFIG_SO_PIN_AS_INPUT()     st( MAP_GPIOPinTypeSSI(GPIO_PORTB_BASE, BV(__mrfi_SPI_SO_GPIO_BIT__)); )
+#define MRFI_SPI_SO_IS_HIGH()                 (MAP_GPIOPinRead(GPIO_PORTB_BASE, BV(__mrfi_SPI_SO_GPIO_BIT__)))
 
 /* SPI Port Configuration */
 #define MRFI_SPI_CONFIG_PORT()                /* Not used. */
 
 /* read/write macros */
-#define MRFI_SPI_WRITE_BYTE(x)                st( MAP_SSIDataPut(SSI1_BASE, (x));                       \
+#define MRFI_SPI_WRITE_BYTE(x)                st( MAP_SSIDataPut(SSI2_BASE, (x));                       \
                                                   {                                                     \
                                                       unsigned long ulTemp;                             \
-                                                      MAP_SSIDataGet(SSI1_BASE, &ulTemp);               \
+                                                      MAP_SSIDataGet(SSI2_BASE, &ulTemp);               \
                                                       g_ucSPIReadVal = (unsigned char)(ulTemp & 0xFF);  \
                                                   }                                                     \
                                               )
 #define MRFI_SPI_READ_BYTE()                  g_ucSPIReadVal
-#define MRFI_SPI_WAIT_DONE()                  while(MAP_SSIBusy(SSI1_BASE));
+#define MRFI_SPI_WAIT_DONE()                  while(MAP_SSIBusy(SSI2_BASE));
 
 /* SPI critical section macros */
 typedef bspIState_t mrfiSpiIState_t;
@@ -176,17 +175,18 @@ typedef bspIState_t mrfiSpiIState_t;
 #define SPI_RATE 100000
 #define MRFI_SPI_INIT()                                                       \
 st (                                                                          \
-  MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_SSI1);                             \
-  MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOH);                            \
-  MAP_GPIOPinConfigure(GPIO_PH4_SSI1CLK);                                     \
-  MAP_GPIOPinConfigure(GPIO_PH7_SSI1TX);                                      \
-  MAP_GPIOPinConfigure(GPIO_PH6_SSI1RX);                                      \
-  MAP_SSIConfigSetExpClk(SSI1_BASE, MAP_SysCtlClockGet(),                     \
+  MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_SSI2);                             \
+  MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);                            \
+  MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);                            \
+  MAP_GPIOPinConfigure(GPIO_PB4_SSI2CLK);                                     \
+  MAP_GPIOPinConfigure(GPIO_PB7_SSI2TX);                                      \
+  MAP_GPIOPinConfigure(GPIO_PB6_SSI2RX);                                      \
+  MAP_SSIConfigSetExpClk(SSI2_BASE, MAP_SysCtlClockGet(),                     \
                          SSI_FRF_MOTO_MODE_0, SSI_MODE_MASTER, SPI_RATE, 8);  \
-  MAP_SSIEnable(SSI1_BASE);                                                   \
+  MAP_SSIEnable(SSI2_BASE);                                                   \
   {                                                                           \
       unsigned long ulTemp;                                                   \
-      while(MAP_SSIDataGetNonBlocking(SSI1_BASE, &ulTemp))                    \
+      while(MAP_SSIDataGetNonBlocking(SSI2_BASE, &ulTemp))                    \
       {                                                                       \
       }                                                                       \
   }                                                                           \
@@ -197,13 +197,13 @@ st (                                                                          \
   MAP_IntMasterEnable();                                                      \
 )
 
-#define MRFI_SPI_IS_INITIALIZED()  (HWREG(SSI1_BASE + SSI_O_CR1) & SSI_CR1_SSE)
+#define MRFI_SPI_IS_INITIALIZED()  (HWREG(SSI2_BASE + SSI_O_CR1) & SSI_CR1_SSE)
 
 /**************************************************************************************************
  *                                  Compile Time Integrity Checks
  **************************************************************************************************
  */
-#ifndef BSP_BOARD_EK_EVALBOT
+#ifndef BSP_BOARD_STELLARIS_LAUNCHPAD
 #error "ERROR: Mismatch between specified board and MRFI configuration."
 #endif
 #ifdef MRFI_CC2520

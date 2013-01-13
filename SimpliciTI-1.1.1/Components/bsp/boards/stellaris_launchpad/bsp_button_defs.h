@@ -31,8 +31,7 @@
 
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
  *   BSP (Board Support Package)
- *   Target : Texas Instruments EK-EvalBot
- *            Stellaris Development Kit
+ *   Target : Texas Instruments Stellaris Launchpad
  *   Button definition file.
  * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
  */
@@ -59,35 +58,22 @@
  *                                      Button Configuration
  * ------------------------------------------------------------------------------------------------
  */
-#define __bsp_NUM_BUTTONS__                   2
+#define __bsp_NUM_BUTTONS__                   1
 #define __bsp_BUTTON_DEBOUNCE_WAIT__(expr)    st( int i; for(i=0; i<500; i++) { if (!(expr)) i = 0; } )
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *                 BUTTON #1
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *   Schematic   :  USER_SW1
+ *   Schematic   :  SW1
  *   Description :  Push Button
  *   Polarity    :  Active Low
- *   GPIO        :  PD6
+ *   GPIO        :  PF4
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-#define __bsp_BUTTON1_BIT__             6
-#define __bsp_BUTTON1_PORT__            HWREG(GPIO_PORTD_BASE + (GPIO_O_DATA + BV(__bsp_BUTTON1_BIT__ + 2)))
+#define __bsp_BUTTON1_BIT__             4
+#define __bsp_BUTTON1_PORT__            HWREG(GPIO_PORTF_BASE + (GPIO_O_DATA + BV(__bsp_BUTTON1_BIT__ + 2)))
 #define __bsp_BUTTON1_IS_ACTIVE_LOW__   1
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *                 BUTTON #2
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *   Schematic   :  USER_SW2
- *   Description :  Push Button
- *   Polarity    :  Active Low
- *   GPIO        :  PD7
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- */
-#define __bsp_BUTTON2_BIT__             7
-#define __bsp_BUTTON2_PORT__            HWREG(GPIO_PORTD_BASE + (GPIO_O_DATA + BV(__bsp_BUTTON2_BIT__ + 2)))
-#define __bsp_BUTTON2_IS_ACTIVE_LOW__   1
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *          Extended Configuration
@@ -97,10 +83,9 @@
  * one register write to configure each GPIO.
  */
 #define __bsp_BUTTON_EXTENDED_CONFIG__() st(                                 \
-        MAP_GPIODirModeSet(GPIO_PORTD_BASE, GPIO_PIN_6 | GPIO_PIN_7,         \
-                           GPIO_DIR_MODE_IN);                                \
-        MAP_GPIOPadConfigSet(GPIO_PORTD_BASE, GPIO_PIN_6 | GPIO_PIN_7,       \
-                             GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);)
+        MAP_GPIODirModeSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_DIR_MODE_IN);   \
+        MAP_GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, \
+                             GPIO_PIN_TYPE_STD_WPU);)
 
 /* ------------------------------------------------------------------------------------------------
  *                                Include Generic Button Macros

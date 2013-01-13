@@ -29,8 +29,7 @@
 
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
  *   BSP (Board Support Package)
- *   Target : Texas Instruments EK-EvalBot
- *            Stellaris Development Kit
+ *   Target : Texas Instruments Stellaris Launchpad
  *   LED definition file.
  * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
  */
@@ -55,17 +54,9 @@
  *                                         Configuration
  * ------------------------------------------------------------------------------------------------
  */
-#define __bsp_NUM_LEDS__               2
+#define __bsp_NUM_LEDS__               3
 #define __bsp_LED_BLINK_LOOP_COUNT__   0x34000  /* TBD : incorporate clock from bsp_board_defs.h */
 
-/*
- * Note - the generic LED definition is rather MSP430-specific, assuming that
- * the LED GPIO can be configured with a single register write.  This is not
- * true on Stellaris so we set the pin direction via the __bps_LEDx_DDR__ macro
- * but still need to define __bsp_LED_EXTENDED_CONFIG__ to perform the other
- * initialization required.  The definitions of __bsp_LEDn_DDR__ are really just
- * to keep the generic code happy.
- */
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *                 LED #1
@@ -73,32 +64,38 @@
  *   Schematic :  LED
  *   Color     :  Green
  *   Polarity  :  Active High
- *   GPIO      :  PF4
+ *   GPIO      :  PF3
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
-#define __bsp_LED1_BIT__            4
+/*
+ * Note - the generic LED definition is rather MSP430-specific, assuming that
+ * the LED GPIO can be configured with a single register write.  This is not
+ * true on Stellaris so we set the pin direction via the __bps_LEDx_DDR__ macro
+ * but still need to define __bsp_LED_EXTENDED_CONFIG__ to perform the other
+ * initialization required.  The definition of __bsp_LED1_DDR__ is really just
+ * to keep the generic code happy.
+ */
+
+#define __bsp_LED1_BIT__            3
 #define __bsp_LED1_PORT__           HWREG(GPIO_PORTF_BASE + (GPIO_O_DATA + BV(__bsp_LED1_BIT__ + 2)))
 #define __bsp_LED1_DDR__            HWREG(GPIO_PORTF_BASE + GPIO_O_DIR)
 #define __bsp_LED1_IS_ACTIVE_LOW__  0
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *                 LED #2
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *   Schematic :  LED
- *   Color     :  Green
- *   Polarity  :  Active High
- *   GPIO      :  PF5
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- */
-
-#define __bsp_LED2_BIT__            5
-#define __bsp_LED2_PORT__           HWREG(GPIO_PORTF_BASE + (GPIO_O_DATA + BV(__bsp_LED1_BIT__ + 2)))
+#define __bsp_LED2_BIT__            1
+#define __bsp_LED2_PORT__           HWREG(GPIO_PORTF_BASE + (GPIO_O_DATA + BV(__bsp_LED2_BIT__ + 2)))
 #define __bsp_LED2_DDR__            HWREG(GPIO_PORTF_BASE + GPIO_O_DIR)
 #define __bsp_LED2_IS_ACTIVE_LOW__  0
 
+#define __bsp_LED3_BIT__            2
+#define __bsp_LED3_PORT__           HWREG(GPIO_PORTF_BASE + (GPIO_O_DATA + BV(__bsp_LED3_BIT__ + 2)))
+#define __bsp_LED3_DDR__            HWREG(GPIO_PORTF_BASE + GPIO_O_DIR)
+#define __bsp_LED3_IS_ACTIVE_LOW__  0
+
 #define __bsp_LED_EXTENDED_CONFIG__() st(                                     \
-        MAP_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_4 | GPIO_PIN_5);)
+        MAP_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1);\
+        MAP_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);\
+        MAP_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);)
 
 /* ------------------------------------------------------------------------------------------------
  *                                 Include Generic LED Macros
