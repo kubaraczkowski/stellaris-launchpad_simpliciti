@@ -112,124 +112,6 @@
 
 //*****************************************************************************
 //
-// Forward reference to various widget structures.
-//
-//*****************************************************************************
-/*
-extern tCanvasWidget g_sBackground;
-extern tPushButtonWidget g_sButton1;
-extern tPushButtonWidget g_sButton2;
-extern tPushButtonWidget g_sLED1;
-extern tPushButtonWidget g_sLED2;
-extern tCanvasWidget g_sMainStatus;
-extern tCanvasWidget g_sLinkStatus;
-*/
-//*****************************************************************************
-//
-// Forward reference to the button press handlers.
-//
-//*****************************************************************************
-/*
-void OnButton1Press(tWidget *pWidget);
-void OnButton2Press(tWidget *pWidget);
-*/
-//*****************************************************************************
-//
-// The heading containing the application title.
-//
-//*****************************************************************************
-/*
-Canvas(g_sHeading, WIDGET_ROOT, &g_sMainStatus, &g_sBackground,
-       &g_sKitronix320x240x16_SSD2119, 0, 0, 320, 23,
-       (CANVAS_STYLE_FILL | CANVAS_STYLE_OUTLINE | CANVAS_STYLE_TEXT),
-       ClrDarkBlue, ClrWhite, ClrWhite, g_pFontCm20, "SimpliciTI-hub-dev",
-       0, 0);
-*/
-//*****************************************************************************
-//
-// Canvas used to display the latest status.
-//
-//*****************************************************************************
-/*
-#define MAX_STATUS_STRING_LEN 40
-char g_pcStatus[2][MAX_STATUS_STRING_LEN];
-Canvas(g_sMainStatus, WIDGET_ROOT, &g_sLinkStatus, 0,
-       &g_sKitronix320x240x16_SSD2119, 0, 217, 320, 23,
-       (CANVAS_STYLE_FILL | CANVAS_STYLE_OUTLINE | CANVAS_STYLE_TEXT),
-       ClrDarkBlue, ClrWhite, ClrWhite, g_pFontCm20, g_pcStatus[0],
-       0, 0);
-*/
-//*****************************************************************************
-//
-// A canvas showing the link status.
-//
-//*****************************************************************************
-/*
-Canvas(g_sLinkStatus, WIDGET_ROOT, 0, 0,
-       &g_sKitronix320x240x16_SSD2119, 0, 194, 320, 23, (CANVAS_STYLE_FILL |
-       CANVAS_STYLE_TEXT), ClrBlack, ClrWhite, ClrWhite, g_pFontCm20,
-       g_pcStatus[1], 0, 0);
-*/
-//*****************************************************************************
-//
-// The canvas widget acting as the background to the display.
-//
-//*****************************************************************************
-/*
-Canvas(g_sBackground, &g_sHeading, 0, &g_sButton1,
-       &g_sKitronix320x240x16_SSD2119, 0, 23, 320, (240 - 69),
-       CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0);
-*/
-//*****************************************************************************
-//
-// The button used to toggle AP LED 1.
-//
-//*****************************************************************************
-/*
-RectangularButton(g_sButton1, &g_sBackground, &g_sButton2, 0,
-                  &g_sKitronix320x240x16_SSD2119, 174, 56, 140, 60,
-                  (PB_STYLE_OUTLINE | PB_STYLE_TEXT_OPAQUE | PB_STYLE_TEXT |
-                   PB_STYLE_FILL | PB_STYLE_RELEASE_NOTIFY),
-                   ClrBlue, ClrLightBlue, ClrWhite, ClrWhite,
-                   g_pFontCmss22b, "Button 1", 0, 0, 0, 0,
-                   OnButton1Press);
-*/
-//*****************************************************************************
-//
-// The button used to toggle AP LED 1.
-//
-//*****************************************************************************
-/*
-RectangularButton(g_sButton2, &g_sBackground, &g_sLED1, 0,
-                  &g_sKitronix320x240x16_SSD2119, 174, 124, 140, 60,
-                  (PB_STYLE_OUTLINE | PB_STYLE_TEXT_OPAQUE | PB_STYLE_TEXT |
-                   PB_STYLE_FILL | PB_STYLE_RELEASE_NOTIFY),
-                   ClrBlue, ClrLightBlue, ClrWhite, ClrWhite,
-                   g_pFontCmss22b, "Button 2", 0, 0, 0, 0,
-                   OnButton2Press);
-*/
-//*****************************************************************************
-//
-// The "LED"s used to indicate application status.  These are deliberately not
-// linked to the widget tree yet.  We add these once the user choses which
-// mode to run in.
-//
-//*****************************************************************************
-/*
-CircularButton(g_sLED1, &g_sBackground, &g_sLED2, 0,
-               &g_sKitronix320x240x16_SSD2119, 40, 120, 34,
-               (PB_STYLE_OUTLINE | PB_STYLE_FILL | PB_STYLE_TEXT_OPAQUE |
-               PB_STYLE_TEXT), ClrGreen, ClrGreen, ClrWhite, ClrWhite,
-               g_pFontCmss22b, "LED1", 0, 0, 0, 0, 0);
-
-CircularButton(g_sLED2, &g_sBackground, 0, 0,
-               &g_sKitronix320x240x16_SSD2119, 124, 120, 34,
-               (PB_STYLE_OUTLINE | PB_STYLE_FILL | PB_STYLE_TEXT_OPAQUE |
-               PB_STYLE_TEXT), ClrRed, ClrRed, ClrWhite, ClrWhite,
-               g_pFontCmss22b, "LED2", 0, 0, 0, 0, 0);
-*/
-//*****************************************************************************
-//
 // A global system tick counter.
 //
 //*****************************************************************************
@@ -319,97 +201,9 @@ ApplicationDelay(unsigned long ulDelaymS)
     //
     while(g_ulSysTickCount < ulTarget)
     {
-        //
-        // Process the message queue in case there are any new messages to
-        // handle.
-        //
-//        WidgetMessageQueueProcess();
     }
 }
 
-//*****************************************************************************
-//
-// Draw one of the LED widgets in a particular state.
-//
-//*****************************************************************************
-/*
-void
-UpdateLEDWidget(unsigned long ulLED, tBoolean bOn)
-{
-    tPushButtonWidget *pButton;
-
-    //
-    // Which widget are we dealing with?
-    //
-    pButton = (ulLED == 1) ? &g_sLED1 : &g_sLED2;
-
-    //
-    // Turn the LED on or off by setting the background fill color
-    // appropriately.
-    //
-    PushButtonFillColorSet(pButton, g_ulLEDColors[ulLED - 1][bOn]);
-    PushButtonFillColorPressedSet(pButton, g_ulLEDColors[ulLED - 1][bOn]);
-
-    //
-    // Ensure that the LED is repainted.  This will occur on the next call to
-    // WidgetMessageQueueProcess().
-    //
-    WidgetPaint((tWidget *)pButton);
-
-    //
-    // Process the messages in the widget message queue.
-    //
-    WidgetMessageQueueProcess();
-}
-
-//*****************************************************************************
-//
-// Toggle the state of one of the LEDs on the display.
-//
-//*****************************************************************************
-void
-ToggleLED(unsigned long ulLED)
-{
-    //
-    // We only support LEDs 1 and 2)
-    //
-    ASSERT((ulLED == 1) || (ulLED == 2));
-
-    //
-    // Toggle our virtual LED state.
-    //
-    g_bLEDStates[ulLED - 1] = g_bLEDStates[ulLED - 1] ? false : true;
-
-    //
-    // Set the state of the LED on the display.
-    //
-    UpdateLEDWidget(ulLED, g_bLEDStates[ulLED - 1]);
-}
-
-//*****************************************************************************
-//
-// Set or clear one of the LEDs.
-//
-//*****************************************************************************
-void
-SetLED(unsigned long ulLED, tBoolean bState)
-{
-    //
-    // We only support LEDs 1 and 2)
-    //
-    ASSERT((ulLED == 1) || (ulLED == 2));
-
-    //
-    // Toggle our virtual LED state.
-    //
-    g_bLEDStates[ulLED - 1] = bState;
-
-    //
-    // Set the state of the LED on the display.
-    //
-    UpdateLEDWidget(ulLED, bState);
-}
-*/
 //*****************************************************************************
 //
 // Map a SimpliciTI API return value into a human-readable string.
@@ -439,142 +233,6 @@ MapSMPLStatus(smplStatus_t eVal)
 
 //*****************************************************************************
 //
-// Update one or other of the the status strings on the display.
-//
-//*****************************************************************************
-/*
-void
-UpdateStatus(tBoolean bMainStatus, const char *pcString, ...)
-{
-    va_list vaArgP;
-
-    //
-    // Start the varargs processing.
-    //
-    va_start(vaArgP, pcString);
-
-    //
-    // Call vsnprintf to format the text into the status string buffer.
-    //
-    uvsnprintf(g_pcStatus[bMainStatus ? 0 : 1], MAX_STATUS_STRING_LEN,
-               pcString, vaArgP);
-
-    //
-    // End the varargs processing.
-    //
-    va_end(vaArgP);
-
-    //
-    // Update the status string on the display.
-    //
-    WidgetPaint(bMainStatus ? (tWidget *)&g_sMainStatus :
-                (tWidget *)&g_sLinkStatus);
-}
-
-//*****************************************************************************
-//
-// Handler for the "Button 1" button.
-//
-//*****************************************************************************
-void
-OnButton1Press(tWidget *pWidget)
-{
-    //
-    // Set a flag that will be checked in the LinkTo main loop to indicate that
-    // this button has been pressed.
-    //
-    g_ulButtonPressed = 1;
-}
-
-//*****************************************************************************
-//
-// Handler for the "Button 2" button.
-//
-//*****************************************************************************
-void
-OnButton2Press(tWidget *pWidget)
-{
-    //
-    // Set a flag that will be checked in the LinkTo main loop to indicate that
-    // this button has been pressed.
-    //
-    g_ulButtonPressed = 2;
-}
-
-//*****************************************************************************
-//
-// Set the SimpliciTI device address as the least significant 4 digits of the
-// device Ethernet MAC address.  This ensures that the address is unique across
-// Stellaris devices.  If the MAC address has not been set, we return false to
-// indicate failure.
-//
-//*****************************************************************************
-tBoolean
-SetSimpliciTIAddress(void)
-{
-    unsigned long ulUser0, ulUser1;
-    addr_t sAddr;
-
-    //
-    // Make sure we are using 4 byte addressing.
-    //
-    ASSERT(NET_ADDR_SIZE == 4);
-
-    //
-    // Get the MAC address from the non-volatile user registers.
-    //
-    ROM_FlashUserGet(&ulUser0, &ulUser1);
-
-    //
-    // Has the MAC address been programmed?
-    //
-    if((ulUser0 == 0xffffffff) || (ulUser1 == 0xffffffff))
-    {
-        //
-        // No - we don't have an address so return a failure.
-        //
-        UpdateStatus(false, "Flash user registers are clear");
-        UpdateStatus(true, "Error - address not set!");
-        return(false);
-    }
-    else
-    {
-        //
-        // The MAC address is stored with 3 bytes in each of the 2 flash user
-        // registers.  Extract the least significant 4 MAC bytes for use as the
-        // SimpliciTI device address.
-        //
-        sAddr.addr[0] = ((ulUser1 >> 16) & 0xff);
-        sAddr.addr[1] = ((ulUser1 >>  8) & 0xff);
-        sAddr.addr[2] = ((ulUser1 >>  0) & 0xff);
-        sAddr.addr[3] = ((ulUser0 >> 16) & 0xff);
-
-        //
-        // SimpliciTI requires that the first byte of the device address is
-        // never either 0x00 or 0xFF so we check for these cases and invert the
-        // first bit if either is detected.  This does result in the
-        // possibility of two devices having the same address but, for example
-        // purposes, is likely to be fine.
-        //
-        if((sAddr.addr[0] == 0x00) || (sAddr.addr[0] == 0xFF))
-        {
-            sAddr.addr[0] ^= 0x80;
-        }
-
-        //
-        // Tell the SimpliciTI stack which device address we want to use.
-        //
-        SMPL_Ioctl(IOCTL_OBJ_ADDR, IOCTL_ACT_SET, &sAddr);
-    }
-
-    //
-    // If we get here, all is well.
-    //
-    return(true);
-}
-*/
-//*****************************************************************************
-//
 // Link to the access point and continue processing local button requests
 // forever.  This function is called following initialization in main() and
 // does not return.
@@ -589,7 +247,6 @@ LinkTo(void)
     smplStatus_t eRetcode;
     unsigned long ulButton;
 
-//    UpdateStatus(false, "Linking to Access Point");
 
     //
     // Keep trying to link.  Flash our "LEDs" while these attempts continue.
@@ -610,7 +267,6 @@ LinkTo(void)
     //
     // Tell the user all is well.
     //
-//    UpdateStatus(false, "Link successful");
 
     //
     // Put the radio to sleep until a button is pressed.
@@ -700,10 +356,6 @@ LinkTo(void)
                 //
                 if (MISSES_IN_A_ROW == ucNoAck)
                 {
-                    //
-                    // Tell the user what happened.
-                    //
-//                    UpdateStatus(false, "Channel changed?");
 
                     //
                     // Message not acked.  Toggle LED 2.
@@ -734,7 +386,6 @@ LinkTo(void)
                     //
                     ucDone = 1;
 
-//                    UpdateStatus(false, "Toggled AP LED %d", ulButton);
                 }
             }
 
@@ -744,10 +395,6 @@ LinkTo(void)
             SMPL_Ioctl( IOCTL_OBJ_RADIO, IOCTL_ACT_RADIO_SLEEP, 0);
         }
 
-        //
-        // Process the widget message queue.
-        //
-//        WidgetMessageQueueProcess();
     }
 }
 
@@ -769,58 +416,12 @@ main(void)
                        SYSCTL_XTAL_16MHZ);
 
     //
-    // NB: We don't call PinoutSet() in this testcase since the EM header
-    // expansion board doesn't currently have an I2C ID EEPROM.  If we did
-    // call PinoutSet() this would configure all the EPI pins for SDRAM and
-    // we don't want to do this.
-    //
-//    g_eDaughterType = DAUGHTER_NONE;
-
-    //
-    // Enable peripherals required to drive the LCD.
-    //
-/*
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOH);
-*/
-    //
     // Configure SysTick for a 10Hz interrupt.
     //
     ROM_SysTickPeriodSet(ROM_SysCtlClockGet() / TICKS_PER_SECOND);
     ROM_SysTickEnable();
     ROM_SysTickIntEnable();
 
-    //
-    // Initialize the display driver.
-    //
-//    Kitronix320x240x16_SSD2119Init();
-
-    //
-    // Initialize the touch screen driver.
-    //
-//    TouchScreenInit();
-
-    //
-    // Set the touch screen event handler.
-    //
-//    TouchScreenCallbackSet(WidgetPointerMessage);
-
-    //
-    // Add the compile-time defined widgets to the widget tree.
-    //
-//    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sHeading);
-
-    //
-    // Initialize the status string.
-    //
-//    UpdateStatus(true, "Joining network...");
-
-    //
-    // Paint the widget tree to make sure they all appear on the display.
-    //
-//    WidgetPaint(WIDGET_ROOT);
 
     //
     // Initialize the SimpliciTI BSP.
@@ -834,30 +435,7 @@ main(void)
 
     BSP_TURN_ON_LED3();
     SPIN_ABOUT_A_SECOND;
-    //
-    // Set the SimpliciTI device address using the current Ethernet MAC address
-    // to ensure something like uniqueness.
-    //
-//    bRetcode = SetSimpliciTIAddress();
 
-    //
-    // Did we have a problem with the address?
-    //
-/*
-    if(!bRetcode)
-    {
-        //
-        // Yes - make sure the display is updated then hang the app.
-        //
-        WidgetMessageQueueProcess();
-        while(1)
-        {
-            //
-            // MAC address is not set so hang the app.
-            //
-        }
-    }
-*/
     //
     // Turn both "LEDs" off.
     //
