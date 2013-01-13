@@ -35,7 +35,7 @@ VARIANT=cm4f
 #
 # The base directory for StellarisWare.
 #
-ROOT=~/arm/stellarisware
+ROOT=${HOME}/arm/stellarisware
 
 #
 # Include the common make definitions.
