@@ -73,7 +73,7 @@ extern unsigned char g_ucSPIReadVal;
  *                     GDO0 Pin Configuration (on PA5)
  * ------------------------------------------------------------------------------------------------
  */
-#define __mrfi_GDO0_BIT__                     5
+#define __mrfi_GDO0_BIT__                     6
 #define MRFI_GDO0_BASE                        GPIO_PORTA_BASE
 #define MRFI_CONFIG_GDO0_PIN_AS_INPUT()       st( MAP_GPIOPinTypeGPIOInput(MRFI_GDO0_BASE, BV(__mrfi_GDO0_BIT__)); )
 #define MRFI_GDO0_PIN_IS_HIGH()               (MAP_GPIOPinRead(MRFI_GDO0_BASE, BV(__mrfi_GDO0_BIT__)))
@@ -112,7 +112,7 @@ extern unsigned char g_ucSPIReadVal;
 
 /* Chip select pin definition PA6 */
 #define MOD_SPI_CSN_BASE                      GPIO_PORTA_BASE
-#define MOD_SPI_CSN_BIT                       6
+#define MOD_SPI_CSN_BIT                       5
 
 #define MRFI_SPI_CONFIG_CSN_PIN_AS_OUTPUT()   st( MAP_GPIOPinTypeGPIOOutput(MOD_SPI_CSN_BASE, BV(MOD_SPI_CSN_BIT)); )
 #define MRFI_SPI_DRIVE_CSN_HIGH()             st( MAP_GPIOPinWrite(MOD_SPI_CSN_BASE, BV(MOD_SPI_CSN_BIT), BV(MOD_SPI_CSN_BIT)); )
